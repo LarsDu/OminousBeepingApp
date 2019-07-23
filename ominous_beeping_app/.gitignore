@@ -1,3 +1,7 @@
+# key file
+key.properties
+ominous_beeping_app/android/key.properties
+
 # Emacs stuff
 *~
 \#*\#
