@@ -6,12 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-//ref: https://medium.com/@tonyowen/gradient-text-in-flutter-24a8c8adfcd9
-final Shader linearGradient = LinearGradient(
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-  colors: <Color>[Colors.white, Color(0xFF9BFFAA)],
-).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 10.0));
 
 void main() {
   //ref: https://medium.com/@kr1uz/how-to-restrict-device-orientation-in-flutter-65431cd35113
@@ -42,7 +36,15 @@ class OminousPage extends StatefulWidget {
   OminousState createState() => OminousState();
 }
 
-class OminousState extends State<OminousPage> {  
+class OminousState extends State<OminousPage> {
+  //ref: https://medium.com/@tonyowen/gradient-text-in-flutter-24a8c8adfcd9
+  final Shader linearGradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: <Color>[Colors.white, Color(0xFF9BFFAA)],
+                                               ).createShader(Rect.fromLTWH(0.0, 420.0, 200.0, 180.0));
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
