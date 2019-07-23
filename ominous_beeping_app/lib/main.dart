@@ -127,9 +127,9 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
   Animation<double> animation;
   AnimationController controller;
   
-  int beepMs = 2000;
+  int beepMs = 1800;
   int _curBeepMs;
-  int lowerBeepMs = 250;
+  int lowerBeepMs = 100;
   int deltaBeepMs = -250;
 
   AudioCache _audioCache;
