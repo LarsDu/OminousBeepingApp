@@ -1,2 +1,2 @@
 # OminousBeepingApp
-Ominous Beeping App from Rick and Morty Season 4 created in Flutter.
+Ominous Beeping App created in Flutter. Because you can't stay mad at a guy with this kind of talent.
