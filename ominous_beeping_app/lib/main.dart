@@ -208,7 +208,9 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
         onPressed: (){
           if (running){
             // Stop running the animation and beeper
-            running = false;            
+            running = false;     
+            // Reset controller duration
+            controller.duration = Duration( milliseconds: beepMs);       
             controller.reset();
             controller.stop();
           } else {
