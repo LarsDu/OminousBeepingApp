@@ -58,15 +58,20 @@ class OminousState extends State<OminousPage> {
               width: 304,                   
               child: FlashingCircle(),            
             ),
-            Text( "OMINOUS\nBEEPING\nAPP",
-                 textAlign: TextAlign.left,
-                 style: TextStyle(fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 60,
-                                  //color: Colors.white,
-                                  foreground: Paint()..shader = linearGradient,  
-                                  ),
+            Expanded(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text( "OMINOUS\nBEEPING\nAPP",
+                     textAlign: TextAlign.left,
+                     style: TextStyle(fontFamily: 'Helvetica',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 60,
+                                      //color: Colors.white,
+                                      foreground: Paint()..shader = linearGradient,
+                                      ),
 
+                ),
+              ),
             ),
           ],
          )
