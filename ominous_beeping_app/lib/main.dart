@@ -10,8 +10,8 @@ import 'package:flutter/services.dart';
 final Shader linearGradient = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
-  colors: <Color>[Colors.white, Colors.green[10]],
-).createShader(Rect.fromLTWH(0.0, 0.0, 300.0, 100.0));
+  colors: <Color>[Colors.white, Color(0xFF9BFFAA)],
+).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 10.0));
 
 void main() {
   //ref: https://medium.com/@kr1uz/how-to-restrict-device-orientation-in-flutter-65431cd35113
@@ -61,8 +61,8 @@ class OminousState extends State<OminousPage> {
                  style: TextStyle(fontFamily: 'Helvetica',
                                   fontWeight: FontWeight.w600,
                                   fontSize: 60,
-                                  color: Colors.white,
-                                  //foreground: Paint()..shader = linearGradient,  
+                                  //color: Colors.white,
+                                  foreground: Paint()..shader = linearGradient,  
                                   ),
 
             ),
@@ -129,7 +129,7 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
   
   int beepMs = 1800;
   int _curBeepMs;
-  int lowerBeepMs = 100;
+  int lowerBeepMs = 150;
   int deltaBeepMs = -250;
 
   AudioCache _audioCache;
@@ -210,7 +210,8 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
             // Stop running the animation and beeper
             running = false;     
             // Reset controller duration
-            controller.duration = Duration( milliseconds: beepMs);       
+            controller.duration = Duration( milliseconds: beepMs);   
+            _curBeepMs = beepMs;    
             controller.reset();
             controller.stop();
           } else {
