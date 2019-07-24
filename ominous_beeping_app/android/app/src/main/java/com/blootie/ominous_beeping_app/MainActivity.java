@@ -1,4 +1,4 @@
-package com.example.ominous_beeping_app;
+package com.blootie.ominous_beeping_app;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
