@@ -38,11 +38,12 @@ class OminousPage extends StatefulWidget {
 
 class OminousState extends State<OminousPage> {
   //ref: https://medium.com/@tonyowen/gradient-text-in-flutter-24a8c8adfcd9
+  // Note: need to scale this gradient to the screen
   final Shader linearGradient = LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
+      begin: FractionalOffset.topCenter,
+      end: FractionalOffset.bottomCenter,
       colors: <Color>[Colors.white, Color(0xFF9BFFAA)],
-                                               ).createShader(Rect.fromLTWH(0.0, 420.0, 200.0, 180.0));
+                                               ).createShader(Rect.fromLTWH(0.0, 0.0, 600.0, 600.0));
   
   
   @override
@@ -53,17 +54,17 @@ class OminousState extends State<OminousPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: FittedBox(
+              FittedBox(
                 fit: BoxFit.scaleDown,
+                alignment: Alignment.center,
                 child: Container(
                   height: 440,
                   width: 304,
                   child: FlashingCircle(),
                 ),
               ),
-            ),
-            Text( "OMINOUS\nBEEPING\nAPP",
+              Container(
+                 child: Text( "OMINOUS\nBEEPING\nAPP",
                  textAlign: TextAlign.left,
                  style: TextStyle(fontFamily: 'Helvetica',
                                   fontWeight: FontWeight.w600,
@@ -71,8 +72,8 @@ class OminousState extends State<OminousPage> {
                                   //color: Colors.white,
                                   foreground: Paint()..shader = linearGradient,
                                   ),
-
-            ),
+              ),
+            )
           ],
          )
         ),
@@ -134,7 +135,7 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
   Animation<double> animation;
   AnimationController controller;
   
-  int beepMs = 1800;
+  int beepMs = 1500;
   int _curBeepMs;
   int lowerBeepMs = 150;
   int deltaBeepMs = -250;
@@ -161,7 +162,8 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
       }
     });
 
-    animation = CurveTween(curve: Curves.easeIn).animate(controller)
+    //animation = CurveTween(curve: Curves.easeIn).animate(controller)
+    animation = Tween(begin: 0.0, end: 1.0).animate(controller)
       ..addListener((){
         setCircleIndexFromAnim();
       });
