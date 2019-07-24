@@ -52,26 +52,26 @@ class OminousState extends State<OminousPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [  
-            Container(
-              height: 440,
-              width: 304,                   
-              child: FlashingCircle(),            
-            ),
+          children: [
             Expanded(
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text( "OMINOUS\nBEEPING\nAPP",
-                     textAlign: TextAlign.left,
-                     style: TextStyle(fontFamily: 'Helvetica',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 60,
-                                      //color: Colors.white,
-                                      foreground: Paint()..shader = linearGradient,
-                                      ),
-
+                child: Container(
+                  height: 440,
+                  width: 304,
+                  child: FlashingCircle(),
                 ),
               ),
+            ),
+            Text( "OMINOUS\nBEEPING\nAPP",
+                 textAlign: TextAlign.left,
+                 style: TextStyle(fontFamily: 'Helvetica',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 60,
+                                  //color: Colors.white,
+                                  foreground: Paint()..shader = linearGradient,
+                                  ),
+
             ),
           ],
          )
