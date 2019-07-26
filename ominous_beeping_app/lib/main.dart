@@ -147,7 +147,7 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
 
   StreamSubscription<dynamic> shakeSubscription;
   List<double> accelXyz;
-  double shakeSpeedThreshold=48.0;
+  double shakeSpeedThreshold=68.0;
   int currentTime;
 
   @override
