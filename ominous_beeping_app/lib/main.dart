@@ -1,11 +1,12 @@
 
 import 'dart:math';
+import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-
+import 'package:sensors/sensors.dart';
+//import 'package:vector_math/vector_math.dart';
 
 void main() {
   //ref: https://medium.com/@kr1uz/how-to-restrict-device-orientation-in-flutter-65431cd35113
@@ -43,7 +44,7 @@ class OminousState extends State<OminousPage> {
       begin: FractionalOffset.topCenter,
       end: FractionalOffset.bottomCenter,
       colors: <Color>[Colors.white, Color(0xFF9BFFAA)],
-                                               ).createShader(Rect.fromLTWH(0.0, 0.0, 600.0, 600.0));
+                                               ).createShader(Rect.fromLTWH(0.0, 0.0, 750.0, 300.0));
   
   
   @override
@@ -142,7 +143,12 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
 
   AudioCache _audioCache;
   AudioPlayer _audioPlayer;
-  AudioPlayerState _audioPlayerState;
+  //AudioPlayerState _audioPlayerState;
+
+  StreamSubscription<dynamic> shakeSubscription;
+  List<double> accelXyz;
+  double shakeSpeedThreshold=25.0;
+  int currentTime;
 
   @override
   void initState(){
@@ -168,7 +174,39 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
         setCircleIndexFromAnim();
       });
 
+      // Make the animation triggerable by shaking
+    shakeSubscription = accelerometerEvents.listen( _startAnimationOnShake );
+
   }
+
+
+  _startAnimationOnShake(AccelerometerEvent event){
+      List<double> newXyz =  <double>[event.x, event.y, event.z];
+      if (currentTime == null){
+        currentTime = DateTime.now().millisecondsSinceEpoch;
+      } 
+      if (accelXyz == null){
+        accelXyz = newXyz;
+      } 
+      int newTime = DateTime.now().millisecondsSinceEpoch;
+      double timeDiff = (newTime - currentTime)/(1000.0);
+      double magnitude = calcMagnitude(newXyz, accelXyz);
+      double speed = magnitude/timeDiff;
+
+      if (speed>shakeSpeedThreshold){
+        setState((){running=false;});
+        _startAnimationIfRunning();
+      }
+
+      // Update variables
+      accelXyz = newXyz;
+      currentTime = newTime;
+  }
+
+  double calcMagnitude( List a, List b){
+    return sqrt( pow(a[0]-b[0], 2)+pow(a[1]-b[1], 2)+pow(a[2]-b[2], 2));
+  }
+
 
   void initAudio(){
     // ref: https://medium.com/@pongpiraupra/a-comprehensive-guide-to-playing-local-mp3-files-with-seek-functionality-in-flutter-7730a453bb1a
@@ -208,31 +246,33 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
     });
   }
   */
+  _startAnimationIfRunning(){
+    print("HERE");
+    if (running){
+      print("THERE");
+    // Stop running the animation and beeper
+      running = false;     
+      // Reset controller duration
+      controller.duration = Duration( milliseconds: beepMs);   
+      _curBeepMs = beepMs;    
+      controller.reset();
+      controller.stop();
+      } else {
+        controller.forward(from: 0.0);
+        running = true;
+     }
+   // Set the state once again
+   setState( (){
+      setCircleIndexFromAnim();
+   });
+  }
+          
 
   @override
   Widget build(BuildContext context){
       return FlatButton(
-        child: CustomPaint(painter: DrawCircle(circleIndex)),
-        
-        onPressed: (){
-          if (running){
-            // Stop running the animation and beeper
-            running = false;     
-            // Reset controller duration
-            controller.duration = Duration( milliseconds: beepMs);   
-            _curBeepMs = beepMs;    
-            controller.reset();
-            controller.stop();
-          } else {
-            controller.forward(from: 0.0);
-            running = true;
-          }
-          // Set the state once again
-          setState( (){
-            setCircleIndexFromAnim();
-          } );
-          
-        },
+        child: CustomPaint(painter: DrawCircle(circleIndex)),        
+        onPressed: _startAnimationIfRunning,
       );
 
   }
@@ -241,7 +281,9 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
   void dispose() {
     controller?.dispose();
     super.dispose();
+    shakeSubscription.cancel();
   }
 
 }
+
 
