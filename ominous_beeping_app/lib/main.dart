@@ -147,7 +147,7 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
 
   StreamSubscription<dynamic> shakeSubscription;
   List<double> accelXyz;
-  double shakeSpeedThreshold=25.0;
+  double shakeSpeedThreshold=48.0;
   int currentTime;
 
   @override
@@ -247,9 +247,7 @@ class FlashingCircleState extends State<FlashingCircle> with SingleTickerProvide
   }
   */
   _startAnimationIfRunning(){
-    print("HERE");
     if (running){
-      print("THERE");
     // Stop running the animation and beeper
       running = false;     
       // Reset controller duration
